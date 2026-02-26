@@ -6,6 +6,7 @@ namespace: grwthy-dev
 resources:
   - namespace.yaml
   - configmaps.yaml
+  - middleware.yaml
   - ../../base/web
   - ../../base/api
 

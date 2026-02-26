@@ -20,6 +20,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grwthy-api
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: grwthy-prod-redirect-https@kubernetescrd
 spec:
   tls:
     - hosts:
