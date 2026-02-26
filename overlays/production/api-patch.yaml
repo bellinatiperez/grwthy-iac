@@ -21,6 +21,10 @@ kind: Ingress
 metadata:
   name: grwthy-api
 spec:
+  tls:
+    - hosts:
+        - grwthy.com
+      secretName: grwthy-api-tls
   rules:
     - host: grwthy.com
       http:
