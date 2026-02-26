@@ -15,4 +15,4 @@ images:
   - name: ghcr.io/bellinatiperez/grwthy-web
     newTag: latest
   - name: ghcr.io/bellinatiperez/grwthy-api
-    newTag: latest
+    newTag: "0.0.2"
