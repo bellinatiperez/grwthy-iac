@@ -14,6 +14,9 @@ spec:
       labels:
         app: grwthy-api
     spec:
+      serviceAccountName: grwthy-api
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: api
           image: ghcr.io/bellinatiperez/grwthy-api:latest

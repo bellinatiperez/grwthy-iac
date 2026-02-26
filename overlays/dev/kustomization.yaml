@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: grwthy-dev
 
 resources:
+  - namespace.yaml
   - ../../base/web
   - ../../base/api
 
