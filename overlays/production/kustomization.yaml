@@ -5,6 +5,7 @@ namespace: grwthy-prod
 
 resources:
   - namespace.yaml
+  - configmaps.yaml
   - ../../base/web
   - ../../base/api
 
