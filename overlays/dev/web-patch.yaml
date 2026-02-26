@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grwthy-web
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: web
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grwthy-web
+spec:
+  routes:
+    - match: Host(`dev.grwthy.com`)
+      kind: Rule
+      services:
+        - name: grwthy-web
+          port: 3000

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grwthy-api
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: api
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grwthy-api
+spec:
+  routes:
+    - match: Host(`dev.grwthy.com`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: grwthy-api
+          port: 3001

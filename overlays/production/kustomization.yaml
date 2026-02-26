@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: grwthy-prod
+
+resources:
+  - ../../base/web
+  - ../../base/api
+
+patches:
+  - path: web-patch.yaml
+  - path: api-patch.yaml
+
+images:
+  - name: ghcr.io/bellinatiperez/grwthy-web
+    newTag: latest
+  - name: ghcr.io/bellinatiperez/grwthy-api
+    newTag: latest

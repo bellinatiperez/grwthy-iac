@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grwthy-api
+  labels:
+    app: grwthy-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grwthy-api
+  template:
+    metadata:
+      labels:
+        app: grwthy-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/bellinatiperez/grwthy-api:latest
+          ports:
+            - containerPort: 3001
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: grwthy-api-config
+            - secretRef:
+                name: grwthy-api-secret
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3001
+            initialDelaySeconds: 10
+            periodSeconds: 10

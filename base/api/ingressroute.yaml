@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grwthy-api
+  labels:
+    app: grwthy-api
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`grwthy.com`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: grwthy-api
+          port: 3001
