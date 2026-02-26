@@ -1,0 +1,6 @@
+[submodule "grwthy-api"]
+	path = grwthy-api
+	url = https://github.com/bellinatiperez/grwthy-api.git
+[submodule "grwthy-web"]
+	path = grwthy-web
+	url = https://github.com/bellinatiperez/grwthy-web.git
