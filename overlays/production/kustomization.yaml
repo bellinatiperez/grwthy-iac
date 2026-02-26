@@ -9,13 +9,19 @@ resources:
   - middleware.yaml
   - ../../base/web
   - ../../base/api
+  - ../../base/redis
+  - ../../base/whatsapp-db
+  - ../../base/whatsapp
 
 patches:
   - path: web-patch.yaml
   - path: api-patch.yaml
+  - path: whatsapp-patch.yaml
 
 images:
   - name: ghcr.io/bellinatiperez/grwthy-web
     newTag: "0.2.4"
   - name: ghcr.io/bellinatiperez/grwthy-api
     newTag: "0.0.2"
+  - name: ghcr.io/bellinatiperez/grwthy-whatsapp
+    newTag: "0.0.1"

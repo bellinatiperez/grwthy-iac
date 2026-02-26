@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grwthy-whatsapp
+  labels:
+    app: grwthy-whatsapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grwthy-whatsapp
+  template:
+    metadata:
+      labels:
+        app: grwthy-whatsapp
+    spec:
+      serviceAccountName: grwthy-whatsapp
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: whatsapp
+          image: ghcr.io/bellinatiperez/grwthy-whatsapp:latest
+          ports:
+            - containerPort: 3002
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: grwthy-whatsapp-config
+            - secretRef:
+                name: grwthy-whatsapp-secret
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            tcpSocket:
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3002
+            initialDelaySeconds: 5
+            periodSeconds: 10

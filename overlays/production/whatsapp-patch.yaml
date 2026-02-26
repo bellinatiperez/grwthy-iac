@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grwthy-whatsapp
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: whatsapp
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grwthy-whatsapp
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: grwthy-prod-redirect-https@kubernetescrd
+spec:
+  tls:
+    - hosts:
+        - grwthy.com
+      secretName: grwthy-whatsapp-tls
+  rules:
+    - host: grwthy.com
+      http:
+        paths:
+          - path: /whatsapp
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-whatsapp
+                port:
+                  number: 3002
