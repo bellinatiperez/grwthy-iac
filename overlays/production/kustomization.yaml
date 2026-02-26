@@ -16,6 +16,6 @@ patches:
 
 images:
   - name: ghcr.io/bellinatiperez/grwthy-web
-    newTag: "0.2.1"
+    newTag: "0.2.2"
   - name: ghcr.io/bellinatiperez/grwthy-api
     newTag: "0.0.2"
