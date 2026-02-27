@@ -24,4 +24,4 @@ images:
   - name: ghcr.io/bellinatiperez/grwthy-api
     newTag: "0.1.4"
   - name: ghcr.io/bellinatiperez/grwthy-whatsapp
-    newTag: "0.3.2"
+    newTag: "0.4.0"
