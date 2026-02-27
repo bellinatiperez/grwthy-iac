@@ -1,0 +1,11 @@
+# Criar integração para disparo de mensagems
+    - Sendo a partir de template;
+    - Conversação sendo envio de mensagems e webhook para receber mensagens e status 
+Essa api deve ser exporta considerando quesitos de segurança;
+Aplicar DRY e SOLID;
+Usar Event-Driven archecture se for o caso;
+Seja escalável, resiliente;
+Deve ser proxy para não expor a api;
+
+# mintlify
+Se faz necessário gerar documentação para publicar no mintlify;
