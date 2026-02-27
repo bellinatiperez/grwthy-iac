@@ -5,6 +5,7 @@ metadata:
 data:
   PORT: "3001"
   NODE_ENV: production
+  WHATSAPP_API_URL: http://grwthy-whatsapp/whatsapp
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -13,7 +14,7 @@ metadata:
 data:
   NEXT_PUBLIC_API_URL: http://grwthy-api:3001
   NEXT_PUBLIC_CNPJ: "55.936.992/0001-55"
-  WHATSAPP_API_URL: http://grwthy-whatsapp/whatsapp
+  API_URL: http://grwthy-api:3001
 ---
 apiVersion: v1
 kind: ConfigMap
