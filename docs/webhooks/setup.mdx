@@ -1,0 +1,69 @@
+---
+title: Webhook Setup
+description: Configure Meta webhooks to receive WhatsApp events
+---
+
+# Webhook Setup
+
+Configure your Meta App to send WhatsApp events (incoming messages and delivery statuses) to Grwthy.
+
+## 1. Set the Webhook URL
+
+In your [Meta App Dashboard](https://developers.facebook.com/apps/), navigate to:
+
+**WhatsApp** → **Configuration** → **Webhook**
+
+Set the callback URL to:
+
+```
+https://your-domain.com/whatsapp/webhook
+```
+
+## 2. Set the Verify Token
+
+Use the `webhookVerifyToken` you defined when [creating the account](/api-reference/accounts#create-account).
+
+Meta will send a `GET` request to your webhook URL with a challenge to verify ownership:
+
+```
+GET /whatsapp/webhook?hub.mode=subscribe&hub.verify_token=YOUR_TOKEN&hub.challenge=CHALLENGE_STRING
+```
+
+The API echoes back the `hub.challenge` value to complete verification.
+
+## 3. Subscribe to Events
+
+Subscribe to the following webhook fields:
+
+| Field | Description |
+|-------|-------------|
+| `messages` | Incoming messages and delivery status updates |
+
+## 4. Verify Setup
+
+Send a test message to your WhatsApp number. You should see:
+
+1. A `POST` to your webhook with the incoming message
+2. The message logged in your message history (`GET /accounts/:id/messages`)
+
+## Architecture
+
+```
+Meta Cloud API → POST /whatsapp/webhook
+                        ↓
+              Signature verification (HMAC-SHA256)
+                        ↓
+                ┌───────┴───────┐
+                ↓               ↓
+          Incoming Message   Status Update
+                ↓               ↓
+          Inbound Queue    Status Queue
+          (BullMQ)         (BullMQ)
+                ↓               ↓
+          Log + Event      Update Log + Event
+```
+
+- **Incoming messages** are queued in `whatsapp-inbound` for processing
+- **Status updates** (sent, delivered, read, failed) are queued in `whatsapp-status`
+- Both queues retry 3 times with exponential backoff
+- Events are emitted internally for downstream processing

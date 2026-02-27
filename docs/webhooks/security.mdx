@@ -1,0 +1,86 @@
+---
+title: Webhook Security
+description: HMAC-SHA256 signature verification for webhook payloads
+---
+
+# Webhook Security
+
+All incoming webhook requests from Meta are verified using HMAC-SHA256 signatures to ensure authenticity and integrity.
+
+## How It Works
+
+1. Meta signs each webhook payload using your app's **App Secret**
+2. The signature is sent in the `X-Hub-Signature-256` header
+3. Grwthy verifies the signature before processing any event
+
+```
+Meta → POST /whatsapp/webhook
+       Headers: X-Hub-Signature-256: sha256=<hmac_hex>
+       Body: { ... webhook payload ... }
+                    ↓
+       Extract phone_number_id from payload
+                    ↓
+       Look up account by phone_number_id
+                    ↓
+       Decrypt account's appSecret
+                    ↓
+       Compute HMAC-SHA256(rawBody, appSecret)
+                    ↓
+       Compare with X-Hub-Signature-256 (timing-safe)
+                    ↓
+       ✅ Match → process event
+       ❌ Mismatch → 403 Forbidden
+```
+
+## Signature Format
+
+The `X-Hub-Signature-256` header contains:
+
+```
+sha256=<hex-encoded HMAC-SHA256 hash>
+```
+
+Example:
+
+```
+X-Hub-Signature-256: sha256=a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+```
+
+## Verification Process
+
+The signature is verified per-account:
+
+1. **Extract phone number ID** from the webhook payload (`entry[0].changes[0].value.metadata.phone_number_id`)
+2. **Look up the account** by `phoneNumberId` in the database
+3. **Decrypt the App Secret** stored with AES-256-GCM encryption
+4. **Compute HMAC-SHA256** of the raw request body using the decrypted App Secret
+5. **Compare signatures** using constant-time comparison to prevent timing attacks
+
+## Error Responses
+
+| Status | Scenario |
+|--------|----------|
+| `403` | Missing `X-Hub-Signature-256` header |
+| `403` | No account found for the phone number ID in the payload |
+| `403` | Account is inactive (`isActive = false`) |
+| `403` | Signature does not match (invalid or tampered payload) |
+
+## App Secret Management
+
+The App Secret is a sensitive credential:
+
+- **Stored encrypted** in the database using AES-256-GCM
+- **Decrypted only** at verification time, never exposed in API responses
+- **Set during account creation** via the `appSecret` field
+- **Can be updated** via `PATCH /whatsapp/accounts/:id` if rotated in Meta
+
+<Warning>
+If you rotate your App Secret in Meta's App Dashboard, update it immediately via the API to avoid webhook verification failures.
+</Warning>
+
+## Best Practices
+
+- Never disable signature verification in production
+- Monitor webhook `403` errors — they may indicate misconfigured secrets or malicious requests
+- Keep your App Secret synchronized between Meta and Grwthy
+- Use HTTPS for all webhook endpoints (enforced by Meta)

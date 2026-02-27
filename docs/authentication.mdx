@@ -1,0 +1,56 @@
+---
+title: Authentication
+description: API key authentication for Grwthy WhatsApp API
+---
+
+# Authentication
+
+All API requests require an `X-Api-Key` header.
+
+## API Key Types
+
+### Master API Key
+
+The master key provides full access to all endpoints, including account management (create, update, delete accounts).
+
+```bash
+X-Api-Key: YOUR_MASTER_API_KEY
+```
+
+**Used for:**
+- Creating and managing accounts (`/accounts/*`)
+- Listing templates for any account
+- Administrative operations
+
+### Account API Key
+
+Each account receives a unique API key when created (format: `wk_<64-char-hex>`). This key is scoped to a single account.
+
+```bash
+X-Api-Key: wk_a1b2c3d4...
+```
+
+**Used for:**
+- Sending messages (`/messages/*`)
+- Listing templates (`/templates`)
+
+## Error Responses
+
+| Status | Description |
+|--------|-------------|
+| `401` | Missing or invalid API key |
+| `403` | API key does not have permission for this endpoint |
+
+```json
+{
+  "statusCode": 401,
+  "message": "Missing X-Api-Key header"
+}
+```
+
+## Security Best Practices
+
+- Store API keys in environment variables, never in source code
+- Rotate account API keys periodically using `POST /accounts/:id/regenerate-key`
+- Use the master key only for administrative operations
+- Use account-specific keys for sending messages

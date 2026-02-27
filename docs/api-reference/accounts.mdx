@@ -1,0 +1,227 @@
+---
+title: Accounts
+description: Create and manage WhatsApp Business accounts
+---
+
+# Accounts API
+
+Manage WhatsApp Business accounts. All endpoints require the **master API key**.
+
+## Create Account
+
+<ParamField header="X-Api-Key" type="string" required>
+  Master API key
+</ParamField>
+
+```bash
+POST /whatsapp/accounts
+```
+
+Creates a new WhatsApp Business account and returns a unique API key.
+
+<Warning>The `apiKey` is only returned once during creation. Store it securely.</Warning>
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  Display name for the account
+</ParamField>
+
+<ParamField body="phoneNumberId" type="string" required>
+  WhatsApp Phone Number ID from Meta Business Manager
+</ParamField>
+
+<ParamField body="businessAccountId" type="string" required>
+  WhatsApp Business Account ID from Meta Business Manager
+</ParamField>
+
+<ParamField body="accessToken" type="string" required>
+  Permanent access token from Meta. Stored encrypted (AES-256-GCM)
+</ParamField>
+
+<ParamField body="appSecret" type="string" required>
+  Meta App Secret for webhook signature verification. Stored encrypted (AES-256-GCM)
+</ParamField>
+
+<ParamField body="webhookVerifyToken" type="string" required>
+  Custom token used during Meta webhook verification handshake
+</ParamField>
+
+### Response
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "name": "My Business",
+  "phoneNumberId": "123456789012345",
+  "businessAccountId": "987654321098765",
+  "webhookVerifyToken": "my-custom-verify-token",
+  "isActive": true,
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
+  "apiKey": "wk_a1b2c3d4e5f6..."
+}
+```
+
+### Errors
+
+| Status | Description |
+|--------|-------------|
+| `409` | Phone Number ID already registered |
+
+---
+
+## List Accounts
+
+```bash
+GET /whatsapp/accounts
+```
+
+Returns all accounts. Sensitive fields (`accessToken`, `appSecret`, `apiKey`) are excluded.
+
+### Response
+
+```json
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "name": "My Business",
+    "phoneNumberId": "123456789012345",
+    "businessAccountId": "987654321098765",
+    "webhookVerifyToken": "my-custom-verify-token",
+    "isActive": true,
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z"
+  }
+]
+```
+
+---
+
+## Get Account
+
+```bash
+GET /whatsapp/accounts/:id
+```
+
+<ParamField path="id" type="string" required>
+  Account UUID
+</ParamField>
+
+### Response
+
+Returns a single sanitized account object.
+
+### Errors
+
+| Status | Description |
+|--------|-------------|
+| `404` | Account not found |
+
+---
+
+## Update Account
+
+```bash
+PATCH /whatsapp/accounts/:id
+```
+
+<ParamField path="id" type="string" required>
+  Account UUID
+</ParamField>
+
+All fields are optional. Only provided fields are updated.
+
+### Request Body
+
+<ParamField body="name" type="string">
+  Updated display name
+</ParamField>
+
+<ParamField body="accessToken" type="string">
+  New access token (re-encrypted on save)
+</ParamField>
+
+<ParamField body="appSecret" type="string">
+  New app secret (re-encrypted on save)
+</ParamField>
+
+<ParamField body="webhookVerifyToken" type="string">
+  New webhook verify token
+</ParamField>
+
+<ParamField body="isActive" type="boolean">
+  Enable or disable the account
+</ParamField>
+
+### Response
+
+Returns the updated sanitized account object.
+
+---
+
+## Deactivate Account
+
+```bash
+DELETE /whatsapp/accounts/:id
+```
+
+<ParamField path="id" type="string" required>
+  Account UUID
+</ParamField>
+
+Soft-deletes the account by setting `isActive` to `false`. The account will no longer send or receive messages.
+
+### Response
+
+```json
+{
+  "message": "Account deactivated"
+}
+```
+
+---
+
+## Regenerate API Key
+
+```bash
+POST /whatsapp/accounts/:id/regenerate-key
+```
+
+<ParamField path="id" type="string" required>
+  Account UUID
+</ParamField>
+
+Generates a new API key for the account. The previous key is **immediately invalidated**.
+
+<Warning>The new `apiKey` is only shown once. Store it securely.</Warning>
+
+### Response
+
+```json
+{
+  "apiKey": "wk_new_key_here..."
+}
+```
+
+---
+
+## Get Account Templates
+
+```bash
+GET /whatsapp/accounts/:id/templates
+```
+
+<ParamField path="id" type="string" required>
+  Account UUID
+</ParamField>
+
+<ParamField query="limit" type="integer" default="100">
+  Maximum number of templates to return
+</ParamField>
+
+Returns message templates from the Meta Graph API for this account.
+
+### Response
+
+Returns the raw template list from Meta's API, including template name, status, category, language, and components.
