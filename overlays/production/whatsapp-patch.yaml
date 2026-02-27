@@ -22,19 +22,4 @@ metadata:
   name: grwthy-whatsapp
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: grwthy-prod-redirect-https@kubernetescrd
-spec:
-  tls:
-    - hosts:
-        - grwthy.com
-      secretName: grwthy-whatsapp-tls
-  rules:
-    - host: grwthy.com
-      http:
-        paths:
-          - path: /whatsapp
-            pathType: Prefix
-            backend:
-              service:
-                name: grwthy-whatsapp
-                port:
-                  number: 3002
+    traefik.ingress.kubernetes.io/router.priority: "30"

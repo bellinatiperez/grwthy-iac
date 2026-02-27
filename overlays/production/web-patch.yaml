@@ -22,19 +22,4 @@ metadata:
   name: grwthy-web
   annotations:
     traefik.ingress.kubernetes.io/router.middlewares: grwthy-prod-redirect-https@kubernetescrd
-spec:
-  tls:
-    - hosts:
-        - grwthy.com
-      secretName: grwthy-web-tls
-  rules:
-    - host: grwthy.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: grwthy-web
-                port:
-                  number: 3000
+    traefik.ingress.kubernetes.io/router.priority: "1"
