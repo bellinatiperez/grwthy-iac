@@ -14,7 +14,7 @@ Manage WhatsApp Business accounts. All endpoints require the **master API key**.
 </ParamField>
 
 ```bash
-POST /whatsapp/accounts
+POST https://grwthy.com/whatsapp/accounts
 ```
 
 Creates a new WhatsApp Business account and returns a unique API key.
@@ -36,11 +36,11 @@ Creates a new WhatsApp Business account and returns a unique API key.
 </ParamField>
 
 <ParamField body="accessToken" type="string" required>
-  Permanent access token from Meta. Stored encrypted (AES-256-GCM)
+  Permanent access token from Meta. Stored securely and encrypted
 </ParamField>
 
 <ParamField body="appSecret" type="string" required>
-  Meta App Secret for webhook signature verification. Stored encrypted (AES-256-GCM)
+  Meta App Secret for webhook signature verification. Stored securely and encrypted
 </ParamField>
 
 <ParamField body="webhookVerifyToken" type="string" required>
@@ -74,10 +74,10 @@ Creates a new WhatsApp Business account and returns a unique API key.
 ## List Accounts
 
 ```bash
-GET /whatsapp/accounts
+GET https://grwthy.com/whatsapp/accounts
 ```
 
-Returns all accounts. Sensitive fields (`accessToken`, `appSecret`, `apiKey`) are excluded.
+Returns all accounts. Sensitive fields (`accessToken`, `appSecret`, `apiKey`) are never included in the response.
 
 ### Response
 
@@ -101,16 +101,12 @@ Returns all accounts. Sensitive fields (`accessToken`, `appSecret`, `apiKey`) ar
 ## Get Account
 
 ```bash
-GET /whatsapp/accounts/:id
+GET https://grwthy.com/whatsapp/accounts/:id
 ```
 
 <ParamField path="id" type="string" required>
   Account UUID
 </ParamField>
-
-### Response
-
-Returns a single sanitized account object.
 
 ### Errors
 
@@ -123,7 +119,7 @@ Returns a single sanitized account object.
 ## Update Account
 
 ```bash
-PATCH /whatsapp/accounts/:id
+PATCH https://grwthy.com/whatsapp/accounts/:id
 ```
 
 <ParamField path="id" type="string" required>
@@ -139,11 +135,11 @@ All fields are optional. Only provided fields are updated.
 </ParamField>
 
 <ParamField body="accessToken" type="string">
-  New access token (re-encrypted on save)
+  New access token
 </ParamField>
 
 <ParamField body="appSecret" type="string">
-  New app secret (re-encrypted on save)
+  New app secret
 </ParamField>
 
 <ParamField body="webhookVerifyToken" type="string">
@@ -156,21 +152,21 @@ All fields are optional. Only provided fields are updated.
 
 ### Response
 
-Returns the updated sanitized account object.
+Returns the updated account object.
 
 ---
 
 ## Deactivate Account
 
 ```bash
-DELETE /whatsapp/accounts/:id
+DELETE https://grwthy.com/whatsapp/accounts/:id
 ```
 
 <ParamField path="id" type="string" required>
   Account UUID
 </ParamField>
 
-Soft-deletes the account by setting `isActive` to `false`. The account will no longer send or receive messages.
+Deactivates the account. It will no longer send or receive messages.
 
 ### Response
 
@@ -185,7 +181,7 @@ Soft-deletes the account by setting `isActive` to `false`. The account will no l
 ## Regenerate API Key
 
 ```bash
-POST /whatsapp/accounts/:id/regenerate-key
+POST https://grwthy.com/whatsapp/accounts/:id/regenerate-key
 ```
 
 <ParamField path="id" type="string" required>
@@ -209,7 +205,7 @@ Generates a new API key for the account. The previous key is **immediately inval
 ## Get Account Templates
 
 ```bash
-GET /whatsapp/accounts/:id/templates
+GET https://grwthy.com/whatsapp/accounts/:id/templates
 ```
 
 <ParamField path="id" type="string" required>
@@ -220,8 +216,4 @@ GET /whatsapp/accounts/:id/templates
   Maximum number of templates to return
 </ParamField>
 
-Returns message templates from the Meta Graph API for this account.
-
-### Response
-
-Returns the raw template list from Meta's API, including template name, status, category, language, and components.
+Returns message templates from Meta for this account. See [Templates API](/api-reference/templates) for response format.

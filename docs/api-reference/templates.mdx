@@ -1,16 +1,16 @@
 ---
 title: Templates
-description: List WhatsApp message templates from Meta
+description: List WhatsApp message templates
 ---
 
 # Templates API
 
-Retrieve approved message templates from your Meta Business account. Templates are managed in the [Meta Business Manager](https://business.facebook.com/) and fetched from the Meta Graph API.
+Retrieve approved message templates from your Meta Business account. Templates are managed in the [Meta Business Manager](https://business.facebook.com/) and synced automatically.
 
 ## List Templates
 
 ```bash
-GET /whatsapp/templates
+GET https://grwthy.com/whatsapp/templates
 ```
 
 Returns all message templates for the authenticated account.
@@ -18,7 +18,7 @@ Returns all message templates for the authenticated account.
 ### Authentication
 
 Can be called with either:
-- **Account API key** — templates for that account
+- **Account API key** — returns templates for that account
 - **Master API key** — requires passing the account context
 
 <ParamField header="X-Api-Key" type="string" required>
@@ -72,7 +72,7 @@ Can be called with either:
 ## List Templates by Account (Admin)
 
 ```bash
-GET /whatsapp/accounts/:id/templates
+GET https://grwthy.com/whatsapp/accounts/:id/templates
 ```
 
 <ParamField header="X-Api-Key" type="string" required>

@@ -11,6 +11,15 @@
     "light": "#07C983",
     "dark": "#0D9373"
   },
+  "modeToggle": {
+    "default": "dark"
+  },
+  "topbarLinks": [
+    {
+      "name": "Dashboard",
+      "url": "https://grwthy.com"
+    }
+  ],
   "navigation": [
     {
       "group": "Getting Started",

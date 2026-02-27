@@ -5,7 +5,7 @@ description: Send WhatsApp messages — text, templates, media, interactive, and
 
 # Messages API
 
-Send messages through the WhatsApp Cloud API. All messages are queued asynchronously for reliable delivery with automatic retries (3 attempts, exponential backoff).
+Send messages through the WhatsApp Cloud API. All messages are processed asynchronously with automatic retries for reliable delivery.
 
 ## Authentication
 
@@ -13,13 +13,13 @@ Messages can be sent using either:
 - **Account API key** — the account is resolved from the key
 - **Master API key** — must include `accountId` in the request body
 
-## Queue Response
+## Response
 
-All send endpoints return the same envelope:
+All send endpoints return the same response:
 
 ```json
 {
-  "id": "message-log-uuid",
+  "id": "550e8400-e29b-41d4-a716-446655440000",
   "status": "queued",
   "accountId": "account-uuid",
   "to": "5511999999999",
@@ -27,14 +27,14 @@ All send endpoints return the same envelope:
 }
 ```
 
-The message is processed asynchronously. Track delivery status via [webhook events](/webhooks/events).
+Track delivery status via [webhook events](/webhooks/events).
 
 ---
 
 ## Send Text
 
 ```bash
-POST /whatsapp/messages/text
+POST https://grwthy.com/whatsapp/messages/text
 ```
 
 <ParamField body="to" type="string" required>
@@ -54,7 +54,7 @@ POST /whatsapp/messages/text
 </ParamField>
 
 ```bash
-curl -X POST https://your-domain.com/whatsapp/messages/text \
+curl -X POST https://grwthy.com/whatsapp/messages/text \
   -H "Content-Type: application/json" \
   -H "X-Api-Key: YOUR_ACCOUNT_API_KEY" \
   -d '{
@@ -68,7 +68,7 @@ curl -X POST https://your-domain.com/whatsapp/messages/text \
 ## Send Template
 
 ```bash
-POST /whatsapp/messages/template
+POST https://grwthy.com/whatsapp/messages/template
 ```
 
 Templates must be pre-approved in your Meta Business account.
@@ -137,7 +137,7 @@ Templates must be pre-approved in your Meta Business account.
 ## Send Image
 
 ```bash
-POST /whatsapp/messages/image
+POST https://grwthy.com/whatsapp/messages/image
 ```
 
 <ParamField body="to" type="string" required>
@@ -161,7 +161,7 @@ POST /whatsapp/messages/image
 ## Send Document
 
 ```bash
-POST /whatsapp/messages/document
+POST https://grwthy.com/whatsapp/messages/document
 ```
 
 <ParamField body="to" type="string" required>
@@ -189,7 +189,7 @@ POST /whatsapp/messages/document
 ## Send Audio
 
 ```bash
-POST /whatsapp/messages/audio
+POST https://grwthy.com/whatsapp/messages/audio
 ```
 
 <ParamField body="to" type="string" required>
@@ -209,7 +209,7 @@ POST /whatsapp/messages/audio
 ## Send Video
 
 ```bash
-POST /whatsapp/messages/video
+POST https://grwthy.com/whatsapp/messages/video
 ```
 
 <ParamField body="to" type="string" required>
@@ -233,7 +233,7 @@ POST /whatsapp/messages/video
 ## Send Location
 
 ```bash
-POST /whatsapp/messages/location
+POST https://grwthy.com/whatsapp/messages/location
 ```
 
 <ParamField body="to" type="string" required>
@@ -261,7 +261,7 @@ POST /whatsapp/messages/location
 ## Send Contacts
 
 ```bash
-POST /whatsapp/messages/contacts
+POST https://grwthy.com/whatsapp/messages/contacts
 ```
 
 <ParamField body="to" type="string" required>
@@ -297,7 +297,7 @@ POST /whatsapp/messages/contacts
 ## Send Interactive Buttons
 
 ```bash
-POST /whatsapp/messages/interactive/buttons
+POST https://grwthy.com/whatsapp/messages/interactive/buttons
 ```
 
 <ParamField body="to" type="string" required>
@@ -344,7 +344,7 @@ POST /whatsapp/messages/interactive/buttons
 ## Send Interactive List
 
 ```bash
-POST /whatsapp/messages/interactive/list
+POST https://grwthy.com/whatsapp/messages/interactive/list
 ```
 
 <ParamField body="to" type="string" required>
@@ -391,7 +391,7 @@ POST /whatsapp/messages/interactive/list
 ## Send Reaction
 
 ```bash
-POST /whatsapp/messages/reaction
+POST https://grwthy.com/whatsapp/messages/reaction
 ```
 
 <ParamField body="to" type="string" required>
@@ -403,7 +403,7 @@ POST /whatsapp/messages/reaction
 </ParamField>
 
 <ParamField body="emoji" type="string" required>
-  Emoji character (e.g., `👍`)
+  Emoji character
 </ParamField>
 
 ---
@@ -411,7 +411,7 @@ POST /whatsapp/messages/reaction
 ## Mark as Read
 
 ```bash
-POST /whatsapp/messages/:messageId/mark-read
+POST https://grwthy.com/whatsapp/messages/:messageId/mark-read
 ```
 
 <ParamField path="messageId" type="string" required>

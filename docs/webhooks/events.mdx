@@ -5,7 +5,7 @@ description: Incoming message and status update events from WhatsApp
 
 # Webhook Events
 
-When Meta sends a webhook to `POST /whatsapp/webhook`, the payload is verified, parsed, and queued for processing. There are two event categories: **incoming messages** and **status updates**.
+When Meta sends a webhook to `POST https://grwthy.com/whatsapp/webhook`, the payload is verified and processed. There are two event categories: **incoming messages** and **status updates**.
 
 ## Payload Structure
 
@@ -79,27 +79,7 @@ When a user sends a message to your WhatsApp number, the `messages` array contai
 }
 ```
 
-### Processing
-
-Incoming messages are:
-
-1. Queued in the `whatsapp-inbound` BullMQ queue
-2. Logged in `message_logs` with direction `inbound` and status `received`
-3. Emitted as internal event `webhook.message.received`
-
-### Event Payload: `webhook.message.received`
-
-```json
-{
-  "accountId": "account-uuid",
-  "from": "5511888888888",
-  "messageId": "wamid.abc123",
-  "timestamp": "1704067200",
-  "type": "text",
-  "message": { "text": { "body": "Hello!" } },
-  "contact": { "profile": { "name": "John Doe" }, "wa_id": "5511888888888" }
-}
-```
+Incoming messages are logged with direction `inbound` and status `received`.
 
 ---
 
@@ -159,19 +139,4 @@ queued → sent → delivered → read
 }
 ```
 
-### Processing
-
-Status updates are:
-
-1. Queued in the `whatsapp-status` BullMQ queue
-2. The corresponding `message_log` row is updated with the new status
-3. Emitted as internal event `webhook.message.<status>`
-
-### Internal Events
-
-| Event | When |
-|-------|------|
-| `webhook.message.sent` | Message accepted by WhatsApp |
-| `webhook.message.delivered` | Message arrived on recipient's device |
-| `webhook.message.read` | Recipient read the message |
-| `webhook.message.failed` | Delivery failed (includes `errors` array) |
+Status updates automatically update the corresponding message record in Grwthy.

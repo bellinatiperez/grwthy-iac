@@ -11,22 +11,22 @@ Configure your Meta App to send WhatsApp events (incoming messages and delivery 
 
 In your [Meta App Dashboard](https://developers.facebook.com/apps/), navigate to:
 
-**WhatsApp** → **Configuration** → **Webhook**
+**WhatsApp** > **Configuration** > **Webhook**
 
 Set the callback URL to:
 
 ```
-https://your-domain.com/whatsapp/webhook
+https://grwthy.com/whatsapp/webhook
 ```
 
 ## 2. Set the Verify Token
 
 Use the `webhookVerifyToken` you defined when [creating the account](/api-reference/accounts#create-account).
 
-Meta will send a `GET` request to your webhook URL with a challenge to verify ownership:
+Meta will send a verification request to confirm ownership:
 
 ```
-GET /whatsapp/webhook?hub.mode=subscribe&hub.verify_token=YOUR_TOKEN&hub.challenge=CHALLENGE_STRING
+GET https://grwthy.com/whatsapp/webhook?hub.mode=subscribe&hub.verify_token=YOUR_TOKEN&hub.challenge=CHALLENGE_STRING
 ```
 
 The API echoes back the `hub.challenge` value to complete verification.
@@ -43,27 +43,27 @@ Subscribe to the following webhook fields:
 
 Send a test message to your WhatsApp number. You should see:
 
-1. A `POST` to your webhook with the incoming message
-2. The message logged in your message history (`GET /accounts/:id/messages`)
+1. The incoming message delivered to your webhook
+2. The message available in your message history via `GET /whatsapp/accounts/:id/messages`
 
-## Architecture
+## How Events Are Processed
 
 ```
-Meta Cloud API → POST /whatsapp/webhook
-                        ↓
-              Signature verification (HMAC-SHA256)
-                        ↓
-                ┌───────┴───────┐
-                ↓               ↓
-          Incoming Message   Status Update
-                ↓               ↓
-          Inbound Queue    Status Queue
-          (BullMQ)         (BullMQ)
-                ↓               ↓
-          Log + Event      Update Log + Event
+Meta Cloud API
+      ↓
+POST https://grwthy.com/whatsapp/webhook
+      ↓
+Signature verification (HMAC-SHA256)
+      ↓
+┌─────┴─────┐
+↓           ↓
+Incoming    Status
+Message     Update
+↓           ↓
+Logged      Status updated
+& delivered & delivered
 ```
 
-- **Incoming messages** are queued in `whatsapp-inbound` for processing
-- **Status updates** (sent, delivered, read, failed) are queued in `whatsapp-status`
-- Both queues retry 3 times with exponential backoff
-- Events are emitted internally for downstream processing
+- **Incoming messages** are verified, logged, and delivered for processing
+- **Status updates** (sent, delivered, read, failed) update the corresponding message record
+- Failed deliveries are automatically retried

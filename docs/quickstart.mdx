@@ -10,7 +10,7 @@ description: Send your first WhatsApp message in under 5 minutes
 First, create a WhatsApp Business account using the master API key:
 
 ```bash
-curl -X POST https://your-domain.com/whatsapp/accounts \
+curl -X POST https://grwthy.com/whatsapp/accounts \
   -H "Content-Type: application/json" \
   -H "X-Api-Key: YOUR_MASTER_API_KEY" \
   -d '{
@@ -30,7 +30,7 @@ The response includes an `apiKey` — **save it**, as it won't be shown again.
 Use your account's API key to send a message:
 
 ```bash
-curl -X POST https://your-domain.com/whatsapp/messages/text \
+curl -X POST https://grwthy.com/whatsapp/messages/text \
   -H "Content-Type: application/json" \
   -H "X-Api-Key: YOUR_ACCOUNT_API_KEY" \
   -d '{
@@ -44,7 +44,7 @@ curl -X POST https://your-domain.com/whatsapp/messages/text \
 Templates must be pre-approved in your Meta Business account:
 
 ```bash
-curl -X POST https://your-domain.com/whatsapp/messages/template \
+curl -X POST https://grwthy.com/whatsapp/messages/template \
   -H "Content-Type: application/json" \
   -H "X-Api-Key: YOUR_ACCOUNT_API_KEY" \
   -d '{
@@ -59,7 +59,7 @@ curl -X POST https://your-domain.com/whatsapp/messages/template \
 In your Meta App Dashboard, set the webhook URL to:
 
 ```
-https://your-domain.com/whatsapp/webhook
+https://grwthy.com/whatsapp/webhook
 ```
 
 Use the `webhookVerifyToken` you set when creating the account.

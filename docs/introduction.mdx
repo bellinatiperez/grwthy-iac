@@ -5,36 +5,28 @@ description: Grwthy WhatsApp API - Multi-account WhatsApp Business Cloud API
 
 # Grwthy WhatsApp API
 
-Grwthy provides a powerful, multi-account WhatsApp Business Cloud API wrapper that simplifies sending and receiving messages at scale.
+Grwthy provides a multi-account WhatsApp Business Cloud API that simplifies sending and receiving messages at scale.
 
 ## Key Features
 
 - **Multi-account support** — Manage multiple WhatsApp Business accounts from a single API
 - **10+ message types** — Text, templates, images, documents, audio, video, location, contacts, interactive buttons/lists, reactions
-- **Asynchronous processing** — Messages are queued via BullMQ for reliable delivery with automatic retries
+- **Reliable delivery** — Messages are processed asynchronously with automatic retries
 - **Webhook integration** — Receive incoming messages and delivery status updates in real-time
-- **Encrypted credentials** — Access tokens and app secrets are stored with AES-256-GCM encryption
+- **Secure credentials** — Access tokens and app secrets are encrypted at rest
 - **Per-account API keys** — Each account gets its own API key for isolated access
 
-## Architecture
+## How It Works
 
-```
-Client → API (NestJS) → Queue (BullMQ/Redis) → WhatsApp Cloud API (Meta)
-                                                        ↓
-                                               Webhook → Queue → Event Processing
-```
-
-### Request Flow
-
-1. **Outbound**: Client sends message → API validates and queues → Worker processes and sends to Meta → Status tracked in database
-2. **Inbound**: Meta sends webhook → Signature verified → Message queued → Logged and event emitted
+1. **Outbound**: You send a message via the API → Grwthy validates, delivers to WhatsApp, and tracks status
+2. **Inbound**: A user messages your WhatsApp number → Grwthy verifies the webhook and delivers the event to your system
 
 ## Base URL
 
 ```
-https://your-domain.com/whatsapp
+https://grwthy.com/whatsapp
 ```
 
 ## Rate Limiting
 
-The API applies rate limiting of **100 requests per 60 seconds** per client. Exceeding this limit will return a `429 Too Many Requests` response.
+The API applies rate limiting of **100 requests per 60 seconds** per client. Exceeding this limit returns a `429 Too Many Requests` response.
