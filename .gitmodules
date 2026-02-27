@@ -7,3 +7,6 @@
 [submodule "grwthy-whatsapp"]
 	path = grwthy-whatsapp
 	url = https://github.com/bellinatiperez/grwthy-whatsapp.git
+[submodule "grwthy-docs"]
+	path = grwthy-docs
+	url = https://github.com/bellinatiperez/grwthy-docs.git
