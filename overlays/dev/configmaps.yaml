@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: grwthy-api-config
 data:
-  PORT: "3001"
+  PORT: "3000"
   NODE_ENV: development
 ---
 apiVersion: v1
@@ -11,6 +11,7 @@ kind: ConfigMap
 metadata:
   name: grwthy-web-config
 data:
+  PORT: "3001"
   NEXT_PUBLIC_API_URL: http://grwthy-api
   NEXT_PUBLIC_CNPJ: "55.936.992/0001-55"
 ---
