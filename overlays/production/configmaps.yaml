@@ -25,5 +25,4 @@ data:
   PORT: "3002"
   NODE_ENV: production
   WHATSAPP_API_VERSION: v21.0
-  REDIS_HOST: redis
-  REDIS_PORT: "6379"
+  REDIS_URL: redis://redis:6379
