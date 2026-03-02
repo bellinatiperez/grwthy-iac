@@ -20,7 +20,7 @@ kind: ConfigMap
 metadata:
   name: grwthy-whatsapp-config
 data:
-  PORT: "3002"
+  PORT: "3000"
   NODE_ENV: development
   WHATSAPP_API_VERSION: v21.0
   REDIS_URL: redis://redis:6379
