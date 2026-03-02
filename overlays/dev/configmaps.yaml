@@ -3,9 +3,9 @@ kind: ConfigMap
 metadata:
   name: grwthy-api-config
 data:
-  PORT: "3000"
+  APP_PORT: "3000"
   NODE_ENV: development
-  WHATSAPP_API_URL: http://grwthy-whatsapp/whatsapp
+  WMA_BASE_URL: http://grwthy-whatsapp/whatsapp
   APP_CORS_ORIGIN: "*"
 ---
 apiVersion: v1
@@ -26,7 +26,11 @@ metadata:
 data:
   PORT: "3000"
   NODE_ENV: development
+  APP_CORS_ORIGIN: "*"
+  META_API_URL: https://graph.facebook.com
   META_API_VERSION: v21.0
+  REDIS_PREFIX: "wma:"
+  REDIS_TTL: "300"
   LOG_LEVEL: debug
   S3_ENDPOINT: http://minio
   S3_PORT: "9000"
