@@ -6,12 +6,14 @@ namespace: grwthy-dev
 resources:
   - namespace.yaml
   - configmaps.yaml
+  - secrets.yaml
   - middleware.yaml
   - ../../base/web
   - ../../base/api
   - ../../base/redis
   - ../../base/whatsapp-db
   - ../../base/whatsapp
+  - ../../base/minio
 
 patches:
   - path: web-patch.yaml

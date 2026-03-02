@@ -5,6 +5,8 @@ metadata:
 data:
   PORT: "3000"
   NODE_ENV: development
+  WHATSAPP_API_URL: http://grwthy-whatsapp/whatsapp
+  APP_CORS_ORIGIN: "*"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -14,6 +16,8 @@ data:
   PORT: "3000"
   NEXT_PUBLIC_API_URL: http://grwthy-api
   NEXT_PUBLIC_CNPJ: "55.936.992/0001-55"
+  API_URL: http://grwthy-api
+  GATEWAY_INTERNAL_URL: http://grwthy-api
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -22,5 +26,11 @@ metadata:
 data:
   PORT: "3000"
   NODE_ENV: development
-  WHATSAPP_API_VERSION: v21.0
+  META_API_VERSION: v21.0
   REDIS_URL: redis://redis:6379
+  LOG_LEVEL: debug
+  S3_ENDPOINT: http://minio
+  S3_PORT: "9000"
+  S3_USE_SSL: "false"
+  S3_BUCKET_NAME: whatsapp-media
+  S3_REGION: us-east-1
