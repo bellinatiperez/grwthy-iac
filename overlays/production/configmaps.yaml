@@ -27,7 +27,6 @@ data:
   PORT: "3000"
   NODE_ENV: production
   META_API_VERSION: v21.0
-  REDIS_URL: redis://redis:6379
   LOG_LEVEL: info
   S3_ENDPOINT: http://minio
   S3_PORT: "9000"
