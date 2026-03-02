@@ -6,7 +6,7 @@ namespace: grwthy-dev
 resources:
   - namespace.yaml
   - configmaps.yaml
-  - secrets.yaml
+  # secrets.yaml removed — secrets are managed manually via kubectl
   - middleware.yaml
   - ../../base/web
   - ../../base/api
