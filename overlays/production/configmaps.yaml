@@ -5,7 +5,7 @@ metadata:
 data:
   APP_PORT: "3000"
   NODE_ENV: production
-  WMA_BASE_URL: http://grwthy-whatsapp/whatsapp
+  WMA_BASE_URL: http://grwthy-whatsapp
   APP_CORS_ORIGIN: "*"
 ---
 apiVersion: v1
