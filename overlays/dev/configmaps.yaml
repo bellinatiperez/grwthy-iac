@@ -32,7 +32,7 @@ data:
   REDIS_PREFIX: "wma:"
   REDIS_TTL: "300"
   LOG_LEVEL: debug
-  S3_ENDPOINT: http://minio
+  S3_ENDPOINT: minio
   S3_PORT: "9000"
   S3_USE_SSL: "false"
   S3_BUCKET_NAME: whatsapp-media
