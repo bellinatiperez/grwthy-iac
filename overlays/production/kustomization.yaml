@@ -8,6 +8,7 @@ resources:
   - configmaps.yaml
   # secrets.yaml removed — secrets are managed manually via kubectl apply -f secrets.real.yaml
   - middleware.yaml
+  - ../../base/ingress
   - ../../base/web
   - ../../base/api
   - ../../base/redis
@@ -16,6 +17,7 @@ resources:
   - ../../base/minio
 
 patches:
+  - path: ingress-patch.yaml
   - path: web-patch.yaml
   - path: api-patch.yaml
   - path: whatsapp-patch.yaml

@@ -1,28 +1,39 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grwthy-whatsapp
-  labels:
-    app: grwthy-whatsapp
+  name: grwthy-ingress
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.priority: "30"
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
   tls:
     - hosts:
         - grwthy.com
-      secretName: grwthy-whatsapp-tls
+      secretName: grwthy-tls
   rules:
     - host: grwthy.com
       http:
         paths:
-          - path: /whatsapp/webhook
+          - path: /v1
             pathType: Prefix
             backend:
               service:
-                name: grwthy-whatsapp
+                name: grwthy-api
+                port:
+                  number: 80
+          - path: /webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-api
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-web
                 port:
                   number: 80

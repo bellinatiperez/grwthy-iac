@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grwthy-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: grwthy-dev-redirect-https@kubernetescrd
+spec:
+  tls:
+    - hosts:
+        - dev.grwthy.com
+      secretName: grwthy-tls
+  rules:
+    - host: dev.grwthy.com
+      http:
+        paths:
+          - path: /v1
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-api
+                port:
+                  number: 80
+          - path: /webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-api
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-web
+                port:
+                  number: 80
