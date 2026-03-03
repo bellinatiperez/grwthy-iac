@@ -24,7 +24,7 @@ patches:
 
 images:
   - name: ghcr.io/bellinatiperez/grwthy-web
-    newTag: "0.7.2"
+    newTag: "0.7.4"
   - name: ghcr.io/bellinatiperez/grwthy-api
     newTag: "0.4.1"
   - name: ghcr.io/bellinatiperez/grwthy-whatsapp
