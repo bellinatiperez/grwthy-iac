@@ -15,6 +15,7 @@ resources:
   - ../../base/whatsapp-db
   - ../../base/whatsapp
   - ../../base/minio
+  - minio-ingress.yaml
 
 patches:
   - path: ingress-patch.yaml
