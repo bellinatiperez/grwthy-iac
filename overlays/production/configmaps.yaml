@@ -26,7 +26,7 @@ metadata:
 data:
   PORT: "3000"
   NODE_ENV: production
-  APP_CORS_ORIGIN: "*"
+  APP_CORS_ORIGIN: "http://grwthy-api"
   META_API_URL: https://graph.facebook.com
   META_API_VERSION: v21.0
   REDIS_PREFIX: "wma:"
