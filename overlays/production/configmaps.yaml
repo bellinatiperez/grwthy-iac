@@ -6,7 +6,7 @@ data:
   APP_PORT: "3000"
   NODE_ENV: production
   WMA_BASE_URL: http://grwthy-whatsapp
-  APP_CORS_ORIGIN: "*"
+  APP_CORS_ORIGIN: "https://grwthy.com"
 ---
 apiVersion: v1
 kind: ConfigMap
