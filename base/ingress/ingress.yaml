@@ -30,6 +30,13 @@ spec:
                 name: grwthy-api
                 port:
                   number: 80
+          - path: /socket.io
+            pathType: Prefix
+            backend:
+              service:
+                name: grwthy-api
+                port:
+                  number: 80
           - path: /
             pathType: Prefix
             backend:
